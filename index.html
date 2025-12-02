@@ -1,67 +1,566 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Site Offline</title>
-  <meta name="description" content="This website is temporarily down. Join our Discord for updates." />
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:linear-gradient(135deg,#7c3aed,#06b6d4);--muted:#9aa4b2}
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.08), transparent),
-                  radial-gradient(900px 500px at 90% 90%, rgba(6,182,212,0.06), transparent),
-                  var(--bg);
-      color:#e6eef6;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .card{
-      width:100%;
-      max-width:720px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      padding:48px;
-      box-shadow:0 10px 30px rgba(2,6,23,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      text-align:center;
-    }
-    h1{margin:0 0 12px;font-size:clamp(20px,4vw,36px);letter-spacing:-0.02em}
-    p.lead{margin:0 0 20px;color:var(--muted);font-size:clamp(13px,1.6vw,16px)}
-    .discord-btn{
-      display:inline-flex;gap:10px;align-items:center;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600;
-      background:var(--card);border:1px solid rgba(255,255,255,0.04);
-      transition:transform .12s ease, box-shadow .12s ease;
-    }
-    .discord-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(3,7,18,0.6)}
-    .discord-icon{width:20px;height:20px;display:inline-block;flex:0 0 20px}
-    footer{margin-top:22px;color:var(--muted);font-size:13px}
-    @media (prefers-reduced-motion:reduce){.discord-btn{transition:none}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Bedrock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            font-size: 22px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.4s;
+        }
+        
+        .social-icon:hover::before {
+            left: 100%;
+        }
+        
+        .social-icon:hover {
+            background-color: #fff;
+            color: #000;
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        
+        .social-icon.youtube:hover {
+            background-color: #FF0000;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        .social-icon.tiktok:hover {
+            background-color: #000;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+        
+        .social-icon.discord:hover {
+            background-color: #5865F2;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 375px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            background: rgba(30, 30, 30, 0.85);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 150, 255, 0.3);
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.8), rgba(0, 100, 200, 0.8));
+            color: #fff;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 150, 255, 0.5);
+        }
+        
+        .glow-effect {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(0, 150, 255, 0.8), rgba(100, 200, 255, 0.8), rgba(0, 150, 255, 0.8));
+            background-size: 200% 100%;
+            animation: glow 4s linear infinite;
+        }
+        
+        @keyframes glow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        
+        .section-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+            padding: 10px;
+        }
+        
+        .button {
+            margin: 4px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .button:hover::before {
+            left: 100%;
+        }
+        
+        .button:hover {
+            background: rgba(0, 150, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 150, 255, 0.5);
+        }
+        
+        .button:hover .button-icon {
+            transform: scale(1.15);
+            color: #0096FF;
+        }
+        
+        .marketplace-button {
+            font-size: 18px;
+        }
+        
+        .button-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            color: #fff;
+        }
+        
+        .tall {
+            grid-column: span 2;
+        }
+        
+        /* Overlay styles - Optimized for mobile */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .overlay-content {
+            background: rgba(25, 25, 25, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 25px rgba(0, 150, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .overlay-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(0, 150, 255, 0.5);
+        }
+        
+        .overlay-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .overlay-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            min-width: 100px;
+            gap: 8px;
+        }
+        
+        .overlay-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .overlay-link:hover::before {
+            left: 100%;
+        }
+        
+        .overlay-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 150, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        
+        .overlay-link-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+        
+        .overlay-link:hover .overlay-link-icon {
+            transform: scale(1.15);
+            color: #0096FF;
+        }
+        
+        .overlay-link-text {
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .close-overlay {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 150, 255, 0.2);
+            border: 1px solid rgba(0, 150, 255, 0.5);
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .close-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .close-overlay:hover::before {
+            left: 100%;
+        }
+        
+        .close-overlay:hover {
+            background: rgba(0, 150, 255, 0.3);
+            transform: scale(1.02);
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+                background-attachment: scroll;
+            }
+            
+            .container {
+                max-width: 360px;
+                padding: 10px;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .button {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .overlay-content {
+                padding: 20px;
+                max-width: 280px;
+            }
+            
+            .overlay-links {
+                gap: 12px;
+            }
+            
+            .overlay-link {
+                padding: 12px 16px;
+                min-width: 80px;
+                gap: 6px;
+            }
+            
+            .overlay-link-icon {
+                font-size: 16px;
+            }
+            
+            /* Disable hover effects on touch devices */
+            @media (hover: none) and (pointer: coarse) {
+                .button:hover {
+                    transform: none;
+                }
+                .social-icon:hover {
+                    transform: none;
+                }
+                .overlay-link:hover {
+                    transform: none;
+                }
+                .close-overlay:hover {
+                    transform: none;
+                }
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .container {
+                max-width: 320px;
+            }
+            
+            .button {
+                padding: 7px;
+            }
+            
+            .overlay-content {
+                max-width: 260px;
+            }
+        }
+        
+        /* Add smooth scrolling for better UX */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Optimize for mobile touch */
+        .button, .social-icon, .overlay-link, .close-overlay {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+    </style>
 </head>
 <body>
-  <main class="card" role="main" aria-labelledby="status-title">
-    <h1 id="status-title">Site currently unavailable</h1>
-    <p class="lead">Join our Discord for status updates and help.</p>
+    <!-- Marketplace Overlay -->
+    <div class="overlay" id="marketplaceOverlay">
+        <div class="overlay-content" id="overlayContent">
+            <h2 class="overlay-title">Select Version</h2>
+            <div class="overlay-links">
+                <a href="https://craftydlc.netlify.app" class="overlay-link" target="_blank">
+                    <i class="fas fa-rocket overlay-link-icon"></i>
+                    <div class="overlay-link-text">V1</div>
+                </a>
+                <a href="https://marketplacedlc.netlify.app" class="overlay-link" target="_blank">
+                    <i class="fas fa-bolt overlay-link-icon"></i>
+                    <div class="overlay-link-text">V2</div>
+                </a>
+            </div>
+            <button class="close-overlay" id="closeOverlay">Close</button>
+        </div>
+    </div>
+    
+    <div class="header">
+        <img class="logo" src="https://i.pinimg.com/736x/d3/1d/07/d31d07313f89289e06d6cae9a38d998e.jpg" alt="Minecraft Logo">
+        <div class="social-icons">
+            <a href="https://www.youtube.com/@Vultir" class="social-icon youtube" target="_blank">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.tiktok.com/@.yashofree" class="social-icon tiktok" target="_blank">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://discord.gg/fvfd45bR2g" class="social-icon discord" target="_blank">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+    </div>
 
-    <a class="discord-btn" href="https://discord.gg/SrZxTkuuab" rel="noopener noreferrer" target="_blank">
-      <span class="discord-icon" aria-hidden="true">
-        <!-- Inline Discord-like icon (simple) -->
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g fill="#5865F2">
-            <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.07.07 0 00-.075.035c-.21.38-.444.874-.608 1.26-1.844-.276-3.68-.276-5.486 0-.164-.386-.4-.88-.61-1.26a.07.07 0 00-.075-.035 19.736 19.736 0 00-4.885 1.515.065.065 0 00-.03.027C2.98 9.045 2.37 13.56 3.37 18.03c.05.147.18.23.33.23 2.06-.306 3.83-.99 5.36-1.8a.069.069 0 01.073-.01c.415.18.84.33 1.28.45.53.16 1.07.28 1.62.36.21.03.42.05.63.07.22-.02.43-.04.64-.07.55-.08 1.09-.2 1.62-.36.44-.12.87-.27 1.29-.45a.069.069 0 01.073.01c1.53.81 3.3 1.49 5.36 1.8.15 0 .28-.083.33-.23 1.02-4.47.4-8.98-2.92-13.633a.052.052 0 00-.03-.027zM8.02 15.331c-1.18 0-2.155-1.085-2.155-2.42 0-1.335.95-2.42 2.155-2.42 1.206 0 2.18 1.085 2.155 2.42 0 1.335-.95 2.42-2.155 2.42zm7.96 0c-1.18 0-2.155-1.085-2.155-2.42 0-1.335.95-2.42 2.155-2.42 1.206 0 2.18 1.085 2.155 2.42 0 1.335-.95 2.42-2.155 2.42z"/>
-          </g>
-        </svg>
-      </span>
-      Discord
-    </a>
-  </main>
+    <div class="container">
+        <div class="section">
+            <div class="section-title"><i class="fas fa-gamepad"></i> Minecraft <i class="fas fa-gamepad"></i></div>
+            <div class="glow-effect"></div>
+            <div class="section-content">
+                <div class="button" onclick="openLink('https://mcbemap.github.io/dl/')">
+                    <i class="fas fa-map button-icon"></i> Maps
+                </div>
+                <div class="button" onclick="openLink('https://mcbeaddon.github.io/new/')">
+                    <i class="fas fa-puzzle-piece button-icon"></i> Addons
+                </div>
+                <div class="button" onclick="openLink('https://mcbeshader.github.io/dl/')">
+                    <i class="fas fa-star button-icon"></i> Shaders
+                </div>
+                <div class="button" onclick="openLink('https://mcbeclient.github.io/dl/')">
+                    <i class="fas fa-desktop button-icon"></i> Clients
+                </div>
+                <div class="button" onclick="openLink('https://mcbepack.github.io/dl/')">
+                    <i class="fas fa-image button-icon"></i> Textures
+                </div>
+                <div class="button" onclick="openLink('https://mcbeskin.github.io/dl/')">
+                    <i class="fas fa-user button-icon"></i> Skins
+                </div>
+                <div class="button" onclick="openLink('https://mcbemodpack.github.io/dl/')">
+                    <i class="fas fa-dragon button-icon"></i> ModPacks
+                </div>
+                <div class="button marketplace-button" onclick="openLink('https://marketplacedlc.netlify.app')">
+                    <i class="fas fa-shopping-cart button-icon"></i> Marketplace
+                </div>
+                <div class="button tall" onclick="openLink('https://mcdlfree.github.io/w/')">
+                    <i class="fas fa-download button-icon"></i> Download Minecraft
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Open external links
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+        
+        // Optimize touch interactions for mobile
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        
+        // Preload hover state for better performance
+        const style = document.createElement('style');
+        style.textContent = `
+            .button, .social-icon, .overlay-link, .close-overlay {
+                will-change: transform, background-color, box-shadow;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Disable animations if user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const style = document.createElement('style');
+            style.textContent = `
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                .glow-effect {
+                    animation: none !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
 </body>
 </html>
+
